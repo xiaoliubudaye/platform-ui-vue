@@ -1,0 +1,43 @@
+.main-layout {
+    .main-layout-header {
+        @apply flex items-center justify-center;
+
+        .main-layout-navbar {
+            @apply container flex justify-between;
+
+            .main-layout-logo {
+                @apply flex;
+
+                .logo {
+                    @apply flex items-center;
+                }
+            }
+
+            .main-layout-nav {
+                @apply flex items-center justify-end;
+
+                .el-menu--horizontal.main-layout-menu {
+                    @apply border-b-0;
+
+                    .el-menu-item.is-active {
+                        @apply border-b-0;
+                    }
+
+                    .el-menu-item:hover,
+                    .el-menu-item:focus {
+                        @apply bg-transparent;
+                    }
+                }
+            }
+        }
+    }
+
+    .main-layout-content {
+        @apply p-0;
+    }
+
+    .main-layout-footer {
+        @apply text-center;
+        height: var(--footer-height);
+    }
+}

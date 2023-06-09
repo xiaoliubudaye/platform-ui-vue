@@ -1,0 +1,136 @@
+:root {
+    --app-white: #ffffff;
+    --app-black: #000000;
+    --app-gray-color: theme('colors.gray.600');
+    --app-red-color: theme('colors.red.600');
+    --app-yellow-color: theme('colors.yellow.600');
+    --app-green-color: theme('colors.green.600');
+    --app-blue-color: theme('colors.blue.600');
+    --app-purple-color: theme('colors.purple.600');
+    //
+    --app-theme-color: var(--app-yellow-color);
+    --app-primary-color: var(--app-yellow-color);
+    --app-primary-bg-color: var(--app-white);
+    --app-primary-text-color: var(--app-yellow-color);
+}
+
+html.dark,
+body.dark {
+    --app-primary-color: var(--app-primary-color);
+    --app-primary-bg-color: var(--app-black);
+    --app-primary-text-color: var(--app-white);
+}
+
+html.app-theme-gray,
+body.app-theme-gray {
+    --app-primary-color: var(--app-gray-color);
+    --app-primary-bg-color: var(--app-white);
+}
+
+html.dark.app-theme-gray,
+body.dark.app-theme-gray {
+    --app-primary-color: var(--app-gray-color);
+    --app-primary-bg-color: var(--app-black);
+}
+
+html.app-theme-red,
+body.app-theme-red {
+    --app-primary-color: var(--app-red-color);
+    --app-primary-bg-color: var(--app-white);
+}
+
+html.dark.app-theme-red,
+body.dark.app-theme-red {
+    --app-primary-color: var(--app-red-color);
+    --app-primary-bg-color: var(--app-black);
+}
+
+html.app-theme-yellow,
+body.app-theme-yellow {
+    --app-primary-color: var(--app-yellow-color);
+    --app-primary-bg-color: var(--app-white);
+}
+
+html.dark.app-theme-yellow,
+body.dark.app-theme-yellow {
+    --app-primary-color: var(--app-yellow-color);
+    --app-primary-bg-color: var(--app-black);
+}
+
+html.app-theme-green,
+body.app-theme-green {
+    --app-primary-color: var(--app-green-color);
+    --app-primary-bg-color: var(--app-white);
+}
+
+html.dark.app-theme-green,
+body.dark.app-theme-green {
+    --app-primary-color: var(--app-green-color);
+    --app-primary-bg-color: var(--app-black);
+}
+
+html.app-theme-blue,
+body.app-theme-blue {
+    --app-primary-color: var(--app-blue-color);
+    --app-primary-bg-color: var(--app-white);
+}
+
+html.dark.app-theme-blue,
+body.dark.app-theme-blue {
+    --app-primary-color: var(--app-blue-color);
+    --app-primary-bg-color: var(--app-black);
+}
+
+html.app-theme-purple,
+body.app-theme-purple {
+    --app-primary-color: var(--app-purple-color);
+    --app-primary-bg-color: var(--app-white);
+}
+
+html.dark.app-theme-purple,
+body.dark.app-theme-purple {
+    --app-primary-color: var(--app-purple-color);
+    --app-primary-bg-color: var(--app-black);
+}
+
+// 扩展框架主题色
+:root:root {
+    --van-primary-color: var(--app-primary-color);
+    --van-button-primary-background: var(--app-primary-color);
+}
+
+//
+.app-text-primary {
+    color: var(--app-primary-text-color);
+}
+
+//
+html,
+body {
+    @apply h-full min-h-full;
+    background-color: var(--app-primary-bg-color);
+}
+
+.app-container {
+    @apply h-full min-h-full;
+
+    .van-config-provider {
+        @apply h-full min-h-full;
+    }
+
+    .app-page-content {
+        @apply flex h-full min-h-full items-center justify-center;
+    }
+}
+
+.entry-page {
+    @apply flex flex-col;
+
+    .entry-page-logo {
+        @apply flex justify-center py-10 align-middle;
+    }
+
+    .entry-page-content {
+        @apply flex justify-center align-middle;
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@apps/site/*": ["../../apps/site/src/*"]
+        }
+    },
+    "include": [
+        "./src/**/*.js",
+        "./src/**/*.jsx",
+        "./src/**/*.ts",
+        "./src/**/*.d.ts",
+        "./src/**/*.tsx",
+        "../commons/*/src/**/*.js",
+        "../commons/*/src/**/*.jsx",
+        "../commons/*/src/**/*.ts",
+        "../commons/*/src/**/*.d.ts",
+        "../commons/*/src/**/*.tsx"
+    ],
+    "exclude": ["node_modules"]
+}
