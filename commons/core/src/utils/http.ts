@@ -257,11 +257,7 @@ export const postJsonConfig: AxiosRequestConfig = {
     ...cancelConfig,
 };
 
-export const postJson = <R = any, P = any>(
-    url: string,
-    data?: P,
-    config: AxiosRequestConfig = postJsonConfig,
-): Promise<R> => {
+export const postJson = <R = any, P = any>(url: string, data?: P, config: AxiosRequestConfig = postJsonConfig): Promise<R> => {
     return http.post(url, data || {}, config);
 };
 
@@ -275,11 +271,7 @@ export const postFormConfig: AxiosRequestConfig = {
     ...cancelConfig,
 };
 
-export const postForm = <R = any, P = any>(
-    url: string,
-    data?: P,
-    config: AxiosRequestConfig = postFormConfig,
-): Promise<R> => {
+export const postForm = <R = any, P = any>(url: string, data?: P, config: AxiosRequestConfig = postFormConfig): Promise<R> => {
     return http.post(url, data || {}, config);
 };
 
@@ -293,11 +285,7 @@ export const postMultipartConfig: AxiosRequestConfig = {
     ...cancelConfig,
 };
 
-export const postMultipart = <R = any, P = any>(
-    url: string,
-    data?: P,
-    config: AxiosRequestConfig = postMultipartConfig,
-): Promise<R> => {
+export const postMultipart = <R = any, P = any>(url: string, data?: P, config: AxiosRequestConfig = postMultipartConfig): Promise<R> => {
     return http.post(url, data || {}, config);
 };
 

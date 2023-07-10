@@ -15,12 +15,12 @@
     },
     "devDependencies": {
         "@capacitor/cli": "^5.1.1",
-        "@intlify/unplugin-vue-i18n": "^0.12.0",
-        "@types/node": "^20.4.0",
+        "@intlify/unplugin-vue-i18n": "^0.12.2",
+        "@types/node": "^20.4.1",
         "@vitejs/plugin-vue": "^4.2.3",
         "@vitejs/plugin-vue-jsx": "^3.0.1",
         "autoprefixer": "^10.4.14",
-        "postcss": "^8.4.24",
+        "postcss": "^8.4.25",
         "sass": "^1.63.6",
         "stylelint": "^15.10.1",
         "tailwindcss": "^3.3.2",
@@ -28,7 +28,7 @@
         "unplugin-auto-import": "^0.16.6",
         "unplugin-icons": "^0.16.3",
         "unplugin-vue-components": "^0.25.1",
-        "vite": "^4.3.9",
+        "vite": "^4.4.2",
         "vite-plugin-vconsole": "^1.3.1",
         "vite-tsconfig-paths": "^4.2.0"
     }

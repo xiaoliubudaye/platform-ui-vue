@@ -15,14 +15,6 @@ export default defineComponent({
             useToggle(appStore.dark);
             appStore.setDark(value as boolean);
         };
-        return () => (
-            <ElSwitch
-                modelValue={isDark.value}
-                inlinePrompt
-                onChange={onChange}
-                activeIcon={Moon}
-                inactiveIcon={Sunny}
-            ></ElSwitch>
-        );
+        return () => <ElSwitch modelValue={isDark.value} inlinePrompt onChange={onChange} activeIcon={Moon} inactiveIcon={Sunny}></ElSwitch>;
     },
 });

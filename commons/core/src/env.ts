@@ -167,9 +167,7 @@ export const env: Environment = {
         mp: {
             enabled: false,
             appId: import.meta.env.VITE_APP_WECHAT_MP_APP_ID ?? '',
-            oauthUrl: isEmpty(import.meta.env.VITE_APP_WECHAT_MP_OAUTH_URL)
-                ? weChatOAuthUrl
-                : import.meta.env.VITE_APP_WECHAT_CP_OAUTH_URL,
+            oauthUrl: isEmpty(import.meta.env.VITE_APP_WECHAT_MP_OAUTH_URL) ? weChatOAuthUrl : import.meta.env.VITE_APP_WECHAT_CP_OAUTH_URL,
             webappRedirectUrl: import.meta.env.VITE_APP_WECHAT_MP_WEBAPP_REDIRECT_URL ?? '',
             mobileRedirectUrl: import.meta.env.VITE_APP_WECHAT_MP_MOBILE_REDIRECT_URL ?? '',
             redirectUrl: import.meta.env.VITE_APP_WECHAT_MP_REDIRECT_URL ?? '',
@@ -179,9 +177,7 @@ export const env: Environment = {
             oauthPrivateEnabled: isEqual(import.meta.env.VITE_APP_WECHAT_CP_OAUTH_PRIVATE_ENABLED, 'true'),
             appId: import.meta.env.VITE_APP_WECHAT_CP_APP_ID ?? '',
             agentId: import.meta.env.VITE_APP_WECHAT_CP_AGENT_ID ?? '',
-            oauthUrl: isEmpty(import.meta.env.VITE_APP_WECHAT_CP_OAUTH_URL)
-                ? weComOAuthUrl
-                : import.meta.env.VITE_APP_WECHAT_CP_OAUTH_URL,
+            oauthUrl: isEmpty(import.meta.env.VITE_APP_WECHAT_CP_OAUTH_URL) ? weComOAuthUrl : import.meta.env.VITE_APP_WECHAT_CP_OAUTH_URL,
             webappRedirectUrl: import.meta.env.VITE_APP_WECHAT_CP_WEBAPP_REDIRECT_URL ?? '',
             mobileRedirectUrl: import.meta.env.VITE_APP_WECHAT_CP_MOBILE_REDIRECT_URL ?? '',
             redirectUrl: import.meta.env.VITE_APP_WECHAT_CP_REDIRECT_URL ?? '',

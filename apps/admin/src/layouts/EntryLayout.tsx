@@ -4,13 +4,7 @@ import { useI18n } from 'vue-i18n';
 //
 import '@apps/admin/layouts/EntryLayout.scss';
 //
-import {
-    DarkSelect,
-    DarkStrategySelect,
-    LocaleDropdownSelect,
-    LocaleSelect,
-    ThemeSelect,
-} from '@commons/webapp/components';
+import { DarkSelect, DarkStrategySelect, LocaleDropdownSelect, LocaleSelect, ThemeSelect } from '@commons/webapp/components';
 
 export default defineComponent({
     name: 'EntryLayout',

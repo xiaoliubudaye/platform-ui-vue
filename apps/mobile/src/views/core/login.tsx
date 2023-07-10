@@ -37,11 +37,7 @@ export default defineComponent({
                 <div class={'mt-6'}>
                     <Form ref={form}>
                         <CellGroup inset>
-                            <Field
-                                modelValue={model.username}
-                                placeholder={t('common.user_field_username')}
-                                rules={rules.username}
-                            >
+                            <Field modelValue={model.username} placeholder={t('common.user_field_username')} rules={rules.username}>
                                 {{
                                     leftIcon: () => (
                                         <Icon>
@@ -62,12 +58,7 @@ export default defineComponent({
                                             <VIcon icon="ion:lock-closed-outline" />
                                         </Icon>
                                     ),
-                                    rightIcon: () => (
-                                        <Icon
-                                            name={showPassword ? 'closed-eye' : 'eye'}
-                                            onClick={() => toggle(!showPassword)}
-                                        />
-                                    ),
+                                    rightIcon: () => <Icon name={showPassword ? 'closed-eye' : 'eye'} onClick={() => toggle(!showPassword)} />,
                                 }}
                             </Field>
                             <div class="my-2">

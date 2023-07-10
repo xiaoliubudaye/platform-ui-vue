@@ -95,12 +95,7 @@ export const canAccessRoute = (route: RouteLocationNormalized) => {
         }
         // 检查是否拥有指定权限
         let hasAuthority = false;
-        if (
-            route.meta &&
-            route.meta.authorities &&
-            route.meta.authorities.length &&
-            route.meta.authorities.length > 0
-        ) {
+        if (route.meta && route.meta.authorities && route.meta.authorities.length && route.meta.authorities.length > 0) {
             hasAuthority = hasAnyAuthority(route.meta.authorities);
         }
 

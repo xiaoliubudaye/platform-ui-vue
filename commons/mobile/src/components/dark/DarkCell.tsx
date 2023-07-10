@@ -4,13 +4,7 @@ import { isArray } from 'lodash-es';
 import { log } from '@commons/core/utils';
 import { useAppStore } from '@commons/core/store';
 import { useI18n } from 'vue-i18n';
-import {
-    darkStrategies,
-    getDarkStrategy,
-    getDarkStrategyLabel,
-    getDarkThemeValue,
-    setDarkTheme,
-} from '@commons/core/utils/dark.ts';
+import { darkStrategies, getDarkStrategy, getDarkStrategyLabel, getDarkThemeValue, setDarkTheme } from '@commons/core/utils/dark.ts';
 
 export default defineComponent({
     name: 'DarkCell',

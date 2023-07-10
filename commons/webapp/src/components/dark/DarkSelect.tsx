@@ -1,13 +1,6 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { ElOption, ElSelect } from 'element-plus';
-import {
-    darkStrategies,
-    DarkStrategy,
-    DarkStrategyType,
-    getDarkStrategy,
-    getDarkThemeValue,
-    setDarkTheme,
-} from '@commons/core/utils/dark';
+import { darkStrategies, DarkStrategy, DarkStrategyType, getDarkStrategy, getDarkThemeValue, setDarkTheme } from '@commons/core/utils/dark';
 import { useAppStore } from '@commons/core/store';
 import { log } from '@commons/core/utils';
 

@@ -35,17 +35,11 @@ class WeChatService {
         // 重定向地址
         let redirectUrl;
         if (PlatformService.isWebPlatform() && !isEmpty(env.wechat.mp.webappRedirectUrl)) {
-            redirectUrl = customRedirectUrl
-                ? url
-                : replaceString(env.wechat.mp.webappRedirectUrl, removeQueryParams(url, 'code'));
+            redirectUrl = customRedirectUrl ? url : replaceString(env.wechat.mp.webappRedirectUrl, removeQueryParams(url, 'code'));
         } else if (PlatformService.isWapPlatform() && !isEmpty(env.wechat.mp.mobileRedirectUrl)) {
-            redirectUrl = customRedirectUrl
-                ? url
-                : replaceString(env.wechat.mp.mobileRedirectUrl, removeQueryParams(url, 'code'));
+            redirectUrl = customRedirectUrl ? url : replaceString(env.wechat.mp.mobileRedirectUrl, removeQueryParams(url, 'code'));
         } else {
-            redirectUrl = customRedirectUrl
-                ? url
-                : replaceString(env.wechat.mp.redirectUrl, removeQueryParams(url, 'code'));
+            redirectUrl = customRedirectUrl ? url : replaceString(env.wechat.mp.redirectUrl, removeQueryParams(url, 'code'));
         }
         // 认证链接
         const oauthUrl = replaceString(env.wechat.mp.appId, encodeURIComponent(redirectUrl));
