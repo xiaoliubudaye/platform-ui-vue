@@ -1,3 +1,3 @@
 module.exports = {
-    reject: ['prettier'],
+    reject: ['element-plus'],
 };
