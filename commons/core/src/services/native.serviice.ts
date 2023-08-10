@@ -48,12 +48,14 @@ class NativeService {
      */
     async takePhotos(source = '', limit = 1): Promise<any> {
         log(`NativeService takePhotos...`);
+        log(source);
+        log(limit);
         // eslint-disable-next-line no-async-promise-executor
         return new Promise<string>(async (resolve, reject) => {
             const available = Capacitor.isPluginAvailable('Camera');
             if (available) {
                 log(`NativeService Camera available.`);
-                const result = await Camera.getPhoto({
+                await Camera.getPhoto({
                     quality: 90,
                     allowEditing: true,
                     resultType: CameraResultType.Uri,

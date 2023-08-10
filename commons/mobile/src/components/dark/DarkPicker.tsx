@@ -4,15 +4,13 @@ import { isArray } from 'lodash-es';
 import { darkStrategies, getDarkStrategy, getDarkThemeValue, setDarkTheme } from '@commons/core/utils/dark';
 import { log } from '@commons/core/utils';
 import { useAppStore } from '@commons/core/store';
-import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
     name: 'DarkPicker',
     setup() {
-        const { t } = useI18n();
         const appStore = useAppStore();
         const mode = computed(() => appStore.darkStrategy);
-        const show = ref(false);
+        const show = ref<boolean>(false);
         const columns = darkStrategies.map((s) => {
             return { text: s.title, value: s.strategy };
         });

@@ -84,7 +84,7 @@ export const useAppStore = defineStore('app', {
     }),
     getters: {},
     actions: {
-        setLocale(locale: Locale): void {
+        async setLocale(locale: Locale): Promise<void> {
             this.locale = locale;
         },
         setTheme(theme: Theme): void {

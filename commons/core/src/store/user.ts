@@ -5,7 +5,6 @@ import { store } from '@commons/core/store';
 import { loginApi, LoginApiParams, LoginApiResult, logoutApi, LogoutApiResult, userInfoApi } from '@commons/core/api/auth';
 import { log } from '@commons/core/utils';
 import { isEmpty } from 'lodash-es';
-import { ApiResponse } from '@commons/core/types';
 
 export interface UserState {
     accessToken: string;

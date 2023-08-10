@@ -22,6 +22,7 @@ class DingTalkService {
      * 获取微信签名
      */
     async getSignature(params: any): Promise<any> {
+        log(params);
         log(`DingTalkService getSignature...`);
     }
 
@@ -111,6 +112,7 @@ class DingTalkService {
                         },
                         onFail: (res: any) => {
                             log(`DingTalkService takePhotos fail.`);
+                            log(res);
                             reject();
                         },
                     });

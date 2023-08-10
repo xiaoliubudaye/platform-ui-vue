@@ -23,6 +23,7 @@ class LarkService {
      * 获取微信签名
      */
     async getSignature(params: any): Promise<any> {
+        log(params);
         log(`LarkService getSignature...`);
     }
 

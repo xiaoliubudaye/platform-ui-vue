@@ -1,6 +1,4 @@
 import { defineComponent } from 'vue';
-import { onMounted } from 'vue';
-import { DarkSelect, DarkStrategySelect, LocaleDropdownSelect, LocaleSelect, ThemeSelect } from '@commons/webapp/components';
 import { ElCard, ElContainer, ElFooter, ElHeader, ElMain } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-root=$(pwd)
+root=$(dirname $(pwd))
 echo "current workspace - $root"
 # @commons/core
 cd "$root/commons/core" || exit
@@ -57,7 +57,7 @@ rm -rf node_modules
 ncu -u
 #
 pnpm install
-#
 pnpm run prettier
-#
+# build
+cd "$root/scripts" || exit
 sh build-pro.sh
