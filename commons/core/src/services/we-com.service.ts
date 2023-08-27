@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash-es';
 import { log, pop, replaceString } from '@commons/core/utils';
 import PlatformService from '@commons/core/services/platform.serviice';
 import { getWeComSignatureApi, WeChatSignatureApiResult } from '@commons/core/api/wechat';
-import { ApiResponse } from '@commons/core/types';
+import { R } from '@commons/core/types';
 import env from '@commons/core/env';
 import BrowserService from '@commons/core/services/browser.service.ts';
 
@@ -79,7 +79,7 @@ class WeComService {
     /**
      * 获取企微签名
      */
-    async getSignature(url: string): Promise<ApiResponse<WeChatSignatureApiResult>> {
+    async getSignature(url: string): Promise<R<WeChatSignatureApiResult>> {
         log(`WeComService getSignature...`);
         return await getWeComSignatureApi({
             url: url,

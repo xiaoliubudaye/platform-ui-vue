@@ -4,7 +4,7 @@ import { log, removeQueryParams, replaceString } from '@commons/core/utils';
 import BrowserService from '@commons/core/services/browser.service';
 import PlatformService from '@commons/core/services/platform.serviice';
 import { getWeChatSignatureApi, WeChatSignatureApiResult } from '@commons/core/api/wechat';
-import { ApiResponse } from '@commons/core/types';
+import { R } from '@commons/core/types';
 import env from '@commons/core/env';
 
 declare let wx: any;
@@ -59,7 +59,7 @@ class WeChatService {
     /**
      * 获取微信签名
      */
-    async getSignature(url: string): Promise<ApiResponse<WeChatSignatureApiResult>> {
+    async getSignature(url: string): Promise<R<WeChatSignatureApiResult>> {
         log(`WeChatService getSignature...`);
         return await getWeChatSignatureApi({
             url: url,

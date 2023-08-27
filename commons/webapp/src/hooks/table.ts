@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 import Page from '@commons/core/types/page';
-import { ApiResponse } from '@commons/core/types';
+import { R } from '@commons/core/types';
 
 export class DataTableOptions {
     columns?: any[];
@@ -29,7 +29,7 @@ export type DataTable = {
     selected: Ref<any[]>;
     rows: Ref<any[]>;
     filter: Ref<string>;
-    handlePageResponse: (response: ApiResponse) => Promise<void>;
+    handlePageResponse: (response: R) => Promise<void>;
     processTableData: (page: Page) => void;
     processTableParams: (pagination: DataTablePagination, filter: string) => Page;
     toggleLoadingStatus: (status: boolean) => void;
@@ -42,7 +42,7 @@ export function useDataTable(options: DataTableOptions = {}): DataTable {
     const selected = ref([]);
     const rows = ref([]);
     const filter = ref('');
-    const handlePageResponse = async (response: ApiResponse): Promise<void> => {
+    const handlePageResponse = async (response: R): Promise<void> => {
         const page = response.data as Page;
         rows.value = page.items;
         pagination.value.page = page.page;

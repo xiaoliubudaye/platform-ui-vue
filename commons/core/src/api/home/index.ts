@@ -1,4 +1,4 @@
-import { ApiResponse } from '@commons/core/types';
+import { R } from '@commons/core/types';
 import { get } from '@commons/core/utils/http';
 
 export class HomeApiResult {
@@ -6,6 +6,6 @@ export class HomeApiResult {
     refresh_token: string;
 }
 
-export const homeApi = (): Promise<ApiResponse<HomeApiResult>> => {
-    return get<ApiResponse<HomeApiResult>>('/api/home', {});
+export const homeApi = (): Promise<R<HomeApiResult>> => {
+    return get<R<HomeApiResult>>('/api/home', {});
 };

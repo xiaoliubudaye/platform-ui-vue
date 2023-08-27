@@ -2,9 +2,19 @@ import { User } from '@commons/core/types/user';
 import storage from '@commons/core/utils/storage';
 import { defineStore } from 'pinia';
 import { store } from '@commons/core/store';
-import { loginApi, LoginApiParams, LoginApiResult, logoutApi, LogoutApiResult, userInfoApi } from '@commons/core/api/auth';
+import {
+    loginApi,
+    LoginApiParams,
+    LoginApiResult,
+    logoutApi,
+    LogoutApiResult,
+    refreshApi,
+    RefreshApiResult,
+    userInfoApi,
+} from '@commons/core/api/auth';
 import { log } from '@commons/core/utils';
 import { isEmpty } from 'lodash-es';
+import { R } from '@commons/core/types';
 
 export interface UserState {
     accessToken: string;
@@ -45,36 +55,51 @@ export const useUserStore = defineStore('user', {
         /**
          * 设置访问凭证
          */
-        setAccessToken(accessToken: string) {
+        setAccessToken(accessToken: string): void {
             this.accessToken = accessToken;
             storage.setAccessToken(accessToken);
         },
         /**
          * 设置刷新凭证
          */
-        setRefreshToken(refreshToken: string) {
+        setRefreshToken(refreshToken: string): void {
             this.refreshToken = refreshToken;
             storage.setRefreshToken(refreshToken);
         },
         /**
          * 设置用户信息
          */
-        setUser(user: User) {
+        setUser(user: User): void {
             this.user = user;
         },
         /**
          * 用户登录
          */
-        async login(params: LoginApiParams) {
-            log(`UserStore.login...`);
-            return new Promise<LoginApiResult>((resolve, reject) => {
+        async login(params: LoginApiParams): Promise<LoginApiResult> {
+            return new Promise<LoginApiResult>((resolve, reject): void => {
                 loginApi(params)
-                    .then(async (result) => {
+                    .then((result: LoginApiResult): void => {
                         this.setAccessToken(result.access_token);
                         this.setRefreshToken(result.refresh_token);
                         resolve(result);
                     })
-                    .catch(() => {
+                    .catch((): void => {
+                        reject();
+                    });
+            });
+        },
+        /**
+         * 刷新凭证
+         */
+        async refresh(): Promise<RefreshApiResult> {
+            return new Promise<RefreshApiResult>((resolve, reject): void => {
+                refreshApi()
+                    .then((result: RefreshApiResult): void => {
+                        this.setAccessToken(result.access_token);
+                        this.setRefreshToken(result.refresh_token);
+                        resolve(result);
+                    })
+                    .catch((): void => {
                         reject();
                     });
             });
@@ -82,11 +107,11 @@ export const useUserStore = defineStore('user', {
         /**
          * 退出登录
          */
-        async logout() {
+        async logout(): Promise<LogoutApiResult> {
             log(`UserStore.logout...`);
-            return new Promise<LogoutApiResult>((resolve, reject) => {
+            return new Promise<LogoutApiResult>((resolve, reject): void => {
                 logoutApi()
-                    .then(async (result) => {
+                    .then(async (result: R<LogoutApiResult>): Promise<void> => {
                         await this.clearUser();
                         resolve(result);
                     })
@@ -98,11 +123,10 @@ export const useUserStore = defineStore('user', {
         /**
          * 根据凭证获取用户信息
          */
-        async getUserInfo() {
+        async getUserInfo(): Promise<R<User>> {
             try {
-                const resp = await userInfoApi();
-                log(resp.data);
-                this.setUser(resp.data.user);
+                const resp: R<User> = await userInfoApi();
+                this.setUser(resp.data);
                 return Promise.resolve(resp);
             } catch (e) {
                 return Promise.reject(e);
@@ -111,7 +135,7 @@ export const useUserStore = defineStore('user', {
         /**
          * 清除所有用户状态信息
          */
-        async clearUser() {
+        async clearUser(): Promise<void> {
             try {
                 this.setAccessToken(null);
                 this.setRefreshToken(null);

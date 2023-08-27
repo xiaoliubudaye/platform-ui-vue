@@ -1,4 +1,4 @@
-import { ApiResponse } from '@commons/core/types';
+import { R } from '@commons/core/types';
 import { get } from '@commons/core/utils/http';
 
 /**
@@ -8,8 +8,8 @@ export type DashboardApiResult = {
     //
 };
 
-export const dashboardApi = (): Promise<ApiResponse<DashboardApiResult>> => {
-    return get<ApiResponse<DashboardApiResult>>('/api/admin/dashboard');
+export const dashboardApi = (): Promise<R<DashboardApiResult>> => {
+    return get<R<DashboardApiResult>>('/api/admin/dashboard');
 };
 
 /**
@@ -19,6 +19,6 @@ export type WorkbenchApiResult = {
     //
 };
 
-export const workbenchApi = (): Promise<ApiResponse<WorkbenchApiResult>> => {
-    return get<ApiResponse<WorkbenchApiResult>>('/api/admin/workbench');
+export const workbenchApi = (): Promise<R<WorkbenchApiResult>> => {
+    return get<R<WorkbenchApiResult>>('/api/admin/workbench');
 };

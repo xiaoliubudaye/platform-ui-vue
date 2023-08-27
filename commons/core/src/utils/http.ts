@@ -1,28 +1,27 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, Canceler, InternalAxiosRequestConfig } from 'axios';
-import { isArray, isEmpty, isFunction, merge } from 'lodash-es';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canceler, CancelTokenStatic, InternalAxiosRequestConfig } from 'axios';
+import { isArray, isEmpty, isEqual, isFunction, merge } from 'lodash-es';
 import { parse, stringify } from 'qs';
+import NProgress from 'nprogress';
 //
 import storage from '@commons/core/utils/storage';
 import { env } from '@commons/core/env';
 import { log } from '@commons/core/utils';
-import { refreshApi, RefreshApiResult } from '@commons/core/api/auth';
 import { router } from '@commons/core/router';
 import { useUserStoreExternal } from '@commons/core/store/user';
-import { isEqual } from 'lodash';
 
 /**
  * 取消请求
  */
-const CancelToken = axios.CancelToken;
+const CancelToken: CancelTokenStatic = axios.CancelToken;
 const cancels: Canceler[] = [];
-const cancelAllRequest = (message?: string) => {
+const cancelAllRequest = (message?: string): void => {
     cancels.forEach((cancel) => cancel(message));
 };
 
 /**
  * 刷新凭证，保存当前请求，等待凭证获取成功后再发送请求。
  */
-let isRefreshing = false;
+let isRefreshing: boolean = false;
 
 const requests: Array<() => void> = [];
 
@@ -32,21 +31,10 @@ const requests: Array<() => void> = [];
 const isTimeoutError = (error: AxiosError) => error.code === 'ECONNABORTED' && error.message.includes('timeout');
 
 /**
- * 创建实例
- */
-export const http = axios.create({
-    timeout: 30000,
-    baseURL: env.server,
-    withCredentials: false,
-});
-
-/**
  * 跳转到登录页面
  */
-export const gotoLogin = async (options: AxiosOptions): Promise<void> => {
-    const userStore = useUserStoreExternal();
-    await userStore.clearUser().then();
-
+export const gotoLogin = async (options: HttpConfig): Promise<void> => {
+    await useUserStoreExternal().clearUser().then();
     const { login = '/login' } = options;
     router.replace(login).then();
 };
@@ -54,7 +42,7 @@ export const gotoLogin = async (options: AxiosOptions): Promise<void> => {
 /**
  * 是否是刷新凭证请求
  */
-export const isRefreshTokenRequest = (config: InternalAxiosRequestConfig) => {
+export const isRefreshTokenRequest = (config: InternalAxiosRequestConfig): boolean => {
     log('Axios isRefreshTokenRequest...');
     if (isEqual(config?.url, '/oauth/token') && !isEmpty(config.data)) {
         const params = parse(config.data);
@@ -64,19 +52,9 @@ export const isRefreshTokenRequest = (config: InternalAxiosRequestConfig) => {
 };
 
 /**
- * 刷新凭证后刷新状态信息
- */
-export const handleRefreshToken = async (result: RefreshApiResult) => {
-    log('Axios handleRefreshToken...');
-    const userStore = useUserStoreExternal();
-    userStore.setAccessToken(result.access_token);
-    userStore.setRefreshToken(result.refresh_token);
-};
-
-/**
  * 处理请求失败
  */
-export const handleError = async (error: AxiosError, options: AxiosOptions = {}) => {
+export const handleError = async (error: AxiosError, options: HttpConfig = {}): Promise<void> => {
     log('Axios handleError...');
 
     const toast = (message: string) => {
@@ -108,21 +86,42 @@ export const handleError = async (error: AxiosError, options: AxiosOptions = {})
 /**
  * 请求参数配置
  */
-export interface AxiosOptions {
+export interface HttpConfig {
     login?: string;
     toast?: Function;
-    excludes?: [];
+    excludes?: string[];
 }
+
+/**
+ * 创建实例
+ */
+export const http: AxiosInstance = axios.create({
+    timeout: 30000,
+    baseURL: env.server,
+    withCredentials: false,
+});
 
 /**
  * 初始化
  */
-export const setupHttp = (options: AxiosOptions = {}) => {
+export const setupHttp = (options: HttpConfig = {}): void => {
     log(`Axios initialize...`);
 
-    // Authorization Interceptor
-    http.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+    /**
+     * 请求拦截
+     */
+    http.interceptors.request.use(async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
         log('Axios Authorization Interceptor.');
+
+        // 关闭进度条动画
+        NProgress.start();
+
+        // 请求白名单，设置白名单可以避免获取或者刷新凭证这些请求因为Token过期导致死循环的问题
+        if (options.excludes.some((v) => config.url.indexOf(v) > -1)) {
+            return config;
+        }
+
+        // 请求头增加访问凭证
         const token = storage.getAccessToken();
         if (isEmpty(token)) {
             config.headers.delete('Authorization');
@@ -132,9 +131,11 @@ export const setupHttp = (options: AxiosOptions = {}) => {
         return config;
     });
 
-    // Xdebug Interceptor
+    /**
+     * 请求拦截，开启PHP调试
+     */
     if (env.xdebug.enabled) {
-        http.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+        http.interceptors.request.use(async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
             if (config.params) {
                 if (isArray(config.params)) {
                     config.params = merge(config.params, {
@@ -150,23 +151,29 @@ export const setupHttp = (options: AxiosOptions = {}) => {
         });
     }
 
-    // Response Interceptor
+    /**
+     * 响应拦截
+     */
     http.interceptors.response.use(
         async (response: AxiosResponse) => {
+            // 关闭进度条动画
+            NProgress.done();
+
             return Promise.resolve(response.data);
         },
         async (error: AxiosError) => {
+            // 关闭进度条动画
+            NProgress.done();
+
             if (error && error.response) {
-                const response = error.response as AxiosResponse;
+                const response: AxiosResponse = error.response as AxiosResponse;
                 switch (response.status) {
                     case 401:
-                        log('Axios handleError 401.');
-                        log(error);
                         if (isRefreshTokenRequest(response.config)) {
                             await gotoLogin(options).then();
                             return Promise.reject(error);
                         } else if (isRefreshing) {
-                            const config = response.config;
+                            const config: InternalAxiosRequestConfig = response.config;
                             return new Promise((resolve) => {
                                 requests.push(() => {
                                     resolve(http(config));
@@ -175,9 +182,9 @@ export const setupHttp = (options: AxiosOptions = {}) => {
                         } else {
                             isRefreshing = true;
                             log('Axios refresh token...');
-                            return refreshApi()
-                                .then(async (result) => {
-                                    await handleRefreshToken(result);
+                            return useUserStoreExternal()
+                                .refresh()
+                                .then(() => {
                                     // 重启已暂停请求
                                     requests.forEach((request) => request());
                                     // 重新发送请求
@@ -185,7 +192,6 @@ export const setupHttp = (options: AxiosOptions = {}) => {
                                     return http(config);
                                 })
                                 .catch(async () => {
-                                    log('Axios refresh token error.');
                                     await handleError(error, options);
                                 })
                                 .finally(() => {
@@ -207,7 +213,7 @@ export const setupHttp = (options: AxiosOptions = {}) => {
 const cancelConfig: AxiosRequestConfig = {
     data: undefined,
     headers: undefined,
-    cancelToken: new CancelToken((cancel) => {
+    cancelToken: new CancelToken((cancel: Canceler): void => {
         cancels.push(cancel);
     }),
 };
@@ -290,4 +296,5 @@ export const postMultipart = <R = any, P = any>(url: string, data?: P, config: A
 };
 
 export { cancelAllRequest, cancels, CancelToken };
+
 export default http;

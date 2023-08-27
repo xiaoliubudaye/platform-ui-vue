@@ -1,4 +1,4 @@
-import { ApiResponse, User } from '@commons/core/types';
+import { R, User } from '@commons/core/types';
 import { get, post } from '@commons/core/utils/http';
 import storage from '@commons/core/utils/storage';
 import { env } from '@commons/core/env';
@@ -18,6 +18,7 @@ export interface RefreshApiParams {
     client_id?: string;
     client_secret?: string;
     refresh_token?: string;
+    scope?: string | string[];
 }
 
 export const refreshApi = (): Promise<RefreshApiResult> => {
@@ -26,10 +27,11 @@ export const refreshApi = (): Promise<RefreshApiResult> => {
     };
     if (env.auth.oauth.enabled) {
         params.grant_type = 'refresh_token';
+        params.scope = 'openid';
         params.client_id = env.auth.oauth.clientId;
         params.client_secret = env.auth.oauth.clientSecret;
     }
-    return post<RefreshApiResult>('/oauth/token', params);
+    return post<LoginApiResult>('/oauth/token', params);
 };
 
 /**
@@ -48,11 +50,13 @@ export interface LoginApiParams {
     client_secret?: string;
     username?: string;
     password?: string;
+    scope?: string | string[];
 }
 
 export const loginApi = (params: LoginApiParams) => {
     if (env.auth.oauth.enabled) {
         params.grant_type = 'password';
+        params.scope = 'openid';
         params.client_id = env.auth.oauth.clientId;
         params.client_secret = env.auth.oauth.clientSecret;
     }
@@ -64,20 +68,16 @@ export const loginApi = (params: LoginApiParams) => {
  */
 export type LogoutApiResult = {};
 
-export const logoutApi = (): Promise<ApiResponse<LogoutApiResult>> => {
-    return post<ApiResponse<LogoutApiResult>>('/api/logout');
+export const logoutApi = (): Promise<R<LogoutApiResult>> => {
+    return post<R<LogoutApiResult>>('/api/logout');
 };
 
 /**
  * 获取用户信息
  */
-export class UserInfoApiResult {
-    user: User;
-    now: Date | string;
-}
 
-export const userInfoApi = (): Promise<ApiResponse<UserInfoApiResult>> => {
-    return get<ApiResponse<UserInfoApiResult>>('/api/user');
+export const userInfoApi = (): Promise<R<User>> => {
+    return get<R<User>>('/api/v1/user');
 };
 
 /**
@@ -94,5 +94,5 @@ export class RegisterApiParams {
 }
 
 export const registerApi = (params: RegisterApiParams) => {
-    return post<ApiResponse<RegisterApiResult>>('/api/register', params);
+    return post<R<RegisterApiResult>>('/api/register', params);
 };

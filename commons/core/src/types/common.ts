@@ -8,7 +8,7 @@ export class SsoParams {
     redirectUri?: string;
 }
 
-export class ApiResponse<T = any> {
+export class R<T = any> {
     static readonly CODE_SUCCESS: number = 1;
     static readonly CODE_ERROR: number = 0;
     code!: number;
@@ -73,6 +73,7 @@ export class Page {
      */
     filter?: string;
 }
+
 import { merge } from 'lodash';
 
 export class DataList {

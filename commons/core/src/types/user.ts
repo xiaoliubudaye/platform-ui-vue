@@ -27,7 +27,7 @@ export class User {
     /**
      * 昵称
      */
-    nickname: string;
+    displayName: string;
     /**
      * 角色
      */
